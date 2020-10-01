@@ -11,7 +11,7 @@ public class Board : MonoBehaviour
 
     private UpdateBoard _updateEvent;
 
-    private BoardRenderer _boardRenderer;
+    private BoardRenderer2D _boardRenderer;
 
     private BoardField[,] _fields;
 

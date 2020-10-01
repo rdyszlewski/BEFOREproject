@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardField : MonoBehaviour
+public class BoardField 
 {
     private int _column;
     private int _row;
@@ -17,14 +17,4 @@ public class BoardField : MonoBehaviour
         set{_row = value;}
     }
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
