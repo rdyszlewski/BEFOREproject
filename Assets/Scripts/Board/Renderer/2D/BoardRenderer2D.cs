@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class BoardRenderer2D :MonoBehaviour, IBoardRenderer
+public class BoardRenderer2D : MonoBehaviour, IBoardRenderer
 {
 
     private readonly Color DEFAULT_COLOR = Color.white;
@@ -17,7 +17,7 @@ public class BoardRenderer2D :MonoBehaviour, IBoardRenderer
     [SerializeField]
     private Texture2D tempFloorTexture;
 
-     void Start()
+    void Start()
     {
 
     }
@@ -29,34 +29,36 @@ public class BoardRenderer2D :MonoBehaviour, IBoardRenderer
     }
 
 
-    public Cell CreateCell(GameObject parent){
-        Cell cell = InstantiateCell(parent);
-        cell.SetupTexture(tempFloorTexture);
-        return cell;
+    public Cell CreateCell(GameObject parent)
+    {
+      Cell cell = InstantiateCell(parent);
+      cell.SetupTexture(tempFloorTexture);
+      return cell;
     }
 
-    public Cell InstantiateCell(GameObject parent){
-        GameObject gameObject = InstantiateObject(cell, parent);
-        return gameObject.GetComponent<Cell>();
+    public Cell InstantiateCell(GameObject parent)
+    {
+      GameObject gameObject = InstantiateObject(cell, parent);
+      return gameObject.GetComponent<Cell>();
     }
 
     private GameObject InstantiateObject(GameObject gameObject, GameObject parent)
     {
-        return Instantiate(gameObject, Vector3.zero, Quaternion.identity, parent.transform);
+      return Instantiate(gameObject, Vector3.zero, Quaternion.identity, parent.transform);
     }
 
     public void HoverCell(Cell cell)
     {
-        cell.ChangeColor(HOVER_COLOR);
+      cell.ChangeColor(HOVER_COLOR);
     }
 
     public void SelectCell(Cell cell)
     {
-        cell.ChangeColor(SELECT_COLOR);
+      cell.ChangeColor(SELECT_COLOR);
     }
 
     public void ResetCellSelection(Cell cell)
     {
-        cell.ChangeColor(DEFAULT_COLOR);
+      cell.ChangeColor(DEFAULT_COLOR);
     }
 }

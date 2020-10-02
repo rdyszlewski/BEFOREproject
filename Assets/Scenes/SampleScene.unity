@@ -134,8 +134,10 @@ GameObject:
   m_Component:
   - component: {fileID: 137937401}
   - component: {fileID: 137937400}
-  - component: {fileID: 137937399}
   - component: {fileID: 137937402}
+  - component: {fileID: 137937399}
+  - component: {fileID: 137937404}
+  - component: {fileID: 137937403}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -155,9 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36cc0c12ad6cadb3a8d9f4a61f2f2708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _size: {x: 8, y: 6, z: 1}
-  _positionCenter: {x: 0, y: 0}
-  _tempFloorTexture: {fileID: 2800000, guid: b3c5be51e7801d9d7b3570d82b19bfbe, type: 3}
+  cell: {fileID: 3829789658682109652, guid: e9ca2ab07cfaaa282a4e3b2652a2222b, type: 3}
+  tempFloorTexture: {fileID: 2800000, guid: b3c5be51e7801d9d7b3570d82b19bfbe, type: 3}
 --- !u!114 &137937400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,11 +195,58 @@ MonoBehaviour:
   m_GameObject: {fileID: 137937398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 957a171786fb354a88b27f822df78107, type: 3}
+  m_Script: {fileID: 11500000, guid: 940860daafac380bc81ff458659a9f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cell2D: {fileID: 3829789658682109652, guid: e9ca2ab07cfaaa282a4e3b2652a2222b, type: 3}
-  cell3D: {fileID: 0}
+  _size: {x: 8, y: 6, z: 1}
+  _positionCenter: {x: 0, y: 0}
+--- !u!114 &137937403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137937398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe11af9da2624b77b6711d11ece2204, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &137937404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137937398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e340e229ccbbc3f49772a0b41509b0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typePropabilities:
+  - _type: 0
+    _probability: 80
+  - _type: 1
+    _probability: 20
+  turnProbabilities:
+  - _number: 1
+    _probability: 10
+  - _number: 2
+    _probability: 30
+  - _number: 3
+    _probability: 30
+  - _number: 4
+    _probability: 15
+  - _number: 5
+    _probability: 5
+  stepsProbabilities:
+  - _number: 1
+    _probability: 70
+  - _number: 2
+    _probability: 25
+  - _number: 0
+    _probability: 5
 --- !u!1 &282840810
 GameObject:
   m_ObjectHideFlags: 0
