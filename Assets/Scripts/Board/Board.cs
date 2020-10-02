@@ -27,10 +27,11 @@ public class Board : MonoBehaviour
     void Start()
     {
         InitBoardFields();
-        _updateEvent();
+        UpdateBoard();
     }
 
     private void InitBoardFields(){
+      Debug.unityLogger.Log("To się tutaj wykonuje");
         _fields = new BoardField[_size.y, _size.x];
         for(int row = 0; row < _size.y; row++){
             for(int column = 0; column < size.x; column++){
@@ -40,6 +41,7 @@ public class Board : MonoBehaviour
                 _fields[row, column] = field;
             }
         }
+        
     }
 
     public void SetUpdateEvent(UpdateBoard callback){
@@ -56,5 +58,12 @@ public class Board : MonoBehaviour
     void Update()
     {
         
+    }
+
+
+    // TODO: zaprojektować to jakoś lepiej
+    public void LoadBoard(){
+      InitBoardFields(); // TODO: o to chodziło?
+      _updateEvent();
     }
 }

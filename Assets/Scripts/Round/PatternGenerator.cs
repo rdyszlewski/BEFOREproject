@@ -60,7 +60,7 @@ public class PatternGenerator : MonoBehaviour
 
   void Start()
   {
-      GeneratePattern();
+    
   }
 
   // Update is called once per frame
