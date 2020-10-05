@@ -18,7 +18,7 @@ public class PatternRenderer : MonoBehaviour {
   private Vector3 size;
 
   [SerializeField]
-  private Vector2 itemSize;
+  private Vector3 itemSize;
 
   [SerializeField]
   private float breakSpace;
@@ -39,25 +39,23 @@ public class PatternRenderer : MonoBehaviour {
     pattern.SetUpdateStateEvent(UpdateState);
     pattern.LoadPattern();
     SetupPattern(pattern.turns);
+    UpdateState(false);
     Debug.unityLogger.Log(pattern.turns);
   }
 
-  private void UpdateState(){
-    Debug.unityLogger.Log("UpdateState");
+  private void UpdateState(bool changedRound){
+    // 
     if(currentItem != null){
       currentItem.Deselect();
    }
    int turn = pattern.currentTurn;
     int step = pattern.currentStep;
-   if(turn == 0 && step == 0){
-     SetupPattern(pattern.turns);
-   }
-    
+    if(changedRound){
+      SetupPattern(pattern.turns);
+    }
+  
     PatternItem item = items.Find(x=>x.turn == turn && x.step == step);
-    Debug.unityLogger.Log(turn);
-    Debug.unityLogger.Log(step);
     if(item != null){
-      Debug.unityLogger.Log("Znaleziono item");
       item.Select();
       currentItem = item;
     }
@@ -69,13 +67,22 @@ public class PatternRenderer : MonoBehaviour {
   }
 
   public void SetupPattern (List<Turn> turns) {
+    // tworzy elementy
     items.Clear ();
+    removeAllItems();
     // TODO: zniszczenie wszystkich utworzonych wcześniej obiektóœ
     Debug.Assert (turns != null);
     float width = CalculatePatternsWidth (turns);
     Vector2 startPosition = new Vector2 (positionCenter.x - width/2, positionCenter.y);
     items = CreatePatternItems (turns, startPosition);
-    UpdateState();
+    // UpdateState();
+  }
+
+  private void removeAllItems(){
+    for(int i=0; i<this.transform.childCount; i++){
+      Transform childTransform = this.transform.GetChild(i);
+      Destroy(childTransform.gameObject);
+    }
   }
 
   private float CalculatePatternsWidth (List<Turn> turns) {
@@ -93,6 +100,9 @@ public class PatternRenderer : MonoBehaviour {
     Vector2 scale = new Vector2(itemSize.x, itemSize.y/2);
     for(int turnIndex =0; turnIndex < turns.Count; turnIndex++) {
       Turn turn = turns[turnIndex];
+      if(turn.GetNumberSteps()==0){
+        Debug.unityLogger.Log("COŚ TUTAJ JEST NIE TAK");
+      }
       for (int stepIndex = 0; stepIndex < turn.GetNumberSteps (); stepIndex++) {
         Step step = turn.GetStep(stepIndex);
         PatternItem item = InstantiateItem (currentPosition);
@@ -128,10 +138,11 @@ public class PatternRenderer : MonoBehaviour {
     Gizmos.DrawWireCube (positionCenter, size);
 
     Gizmos.color = Color.yellow;
-    if(items != null){
-      foreach(PatternItem item in items){
-        Gizmos.DrawWireCube(item.transform.position, itemSize);
-      }
-    }
+    Gizmos.DrawWireCube(positionCenter, itemSize);
+
+    Gizmos.color = Color.cyan;
+    Vector3 lineBegin = new Vector3(positionCenter.x + itemSize.x/2, positionCenter.y, 0);
+    Vector3 lineEnd = new Vector3(lineBegin.x + breakSpace, lineBegin.y, 0);
+    Gizmos.DrawLine(lineBegin, lineEnd);
   }
 }

@@ -72,10 +72,10 @@ public class PatternGenerator : MonoBehaviour
   public List<Turn> GeneratePattern(){
     List<Turn> turnsResult = new List<Turn>();
     int turnsNumber = RandomWithProbabilities<int>(turnProbabilities.ToList<IProbabilities<int>>());
+    Debug.unityLogger.Log("Turns " + turnsNumber);
     for(int turn = 0; turn < turnsNumber; turn++){
       Turn roundTurn = new Turn();
       int stepsNumber = RandomWithProbabilities<int>(stepsProbabilities.ToList<IProbabilities<int>>());
-
       for(int step=0; step < stepsNumber; step++){
         StepType type = RandomWithProbabilities<StepType>(typePropabilities.ToList<IProbabilities<StepType>>());
         Step roundStep = new Step(type);

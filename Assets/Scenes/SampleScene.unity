@@ -416,8 +416,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemObject: {fileID: 6831395865013652333, guid: 7470b1852d1519602b009ac829c62382,
     type: 3}
-  openAction: {fileID: 0}
-  hiddenAction: {fileID: 0}
+  openAction: {fileID: 2800000, guid: aa73458211b512b25b3a178207b3cd88, type: 3}
+  hiddenAction: {fileID: 2800000, guid: 4a50f88ea49ab882ba2f2573d00a022c, type: 3}
   size: {x: 8, y: 1, z: 1}
   itemSize: {x: 0.5, y: 0.8}
   breakSpace: 0.2
@@ -448,27 +448,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typePropabilities:
   - _type: 0
-    _probability: 80
+    _probability: 85
   - _type: 1
-    _probability: 20
+    _probability: 15
   turnProbabilities:
   - _number: 1
-    _probability: 10
+    _probability: 2
   - _number: 2
-    _probability: 30
+    _probability: 42
   - _number: 3
-    _probability: 30
+    _probability: 40
   - _number: 4
     _probability: 15
   - _number: 5
-    _probability: 5
+    _probability: 1
   stepsProbabilities:
   - _number: 1
-    _probability: 70
+    _probability: 85
   - _number: 2
-    _probability: 25
-  - _number: 0
-    _probability: 5
+    _probability: 15
 --- !u!4 &605916038
 Transform:
   m_ObjectHideFlags: 0

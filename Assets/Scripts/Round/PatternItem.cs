@@ -8,7 +8,9 @@ public class PatternItem : MonoBehaviour
   private SpriteRenderer spriteRenderer;
   private Sprite sprite;
 
+  [SerializeField]
   private int _turn;
+  [SerializeField]
   private int _step;
 
   public int turn{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void UpdateState();
+public delegate void UpdateState(bool changedPattern);
 
 public class Pattern : MonoBehaviour {
 // TODO: zmienić nazwę tego na GameState czy coś takiego
@@ -67,7 +67,8 @@ public class Pattern : MonoBehaviour {
     _currentTurn++;
     _currentStep = 0;
     if(_currentTurn == _turns.Count){
-      _currentTurn = 0;
+      // _currentTurn = 0;
+      NextRound();
       // TODO: nowe losowanie, kolejna runda
     }
     RunUpdateStateEvent();
@@ -75,9 +76,11 @@ public class Pattern : MonoBehaviour {
 
   private void NextStep(){
     _currentStep++;
+    Debug.unityLogger.Log(_currentStep);
+    Debug.unityLogger.Log(_turns[_currentTurn].GetNumberSteps());
     if(_currentStep == _turns[_currentTurn].GetNumberSteps()){
-      // NextTurn();
-      NextRound();
+      NextTurn();
+      // NextRound();
       // TODO: tutaj może jakieś odpalenie kolejnej rundy, żeby było wiadomo co ma robić gra
     } else {
       RunUpdateStateEvent();
@@ -90,14 +93,15 @@ public class Pattern : MonoBehaviour {
 
   private void RunUpdateStateEvent(){
     if(updateStateEvent != null){
-      updateStateEvent();
+      updateStateEvent(false);
     }
   }
 
   private void NextRound(){
     _currentStep = 0;
-    _currentRound = 0;
+    _currentTurn = 0;
+    _currentRound++;
     _turns = patternGenerator.GeneratePattern();
-    updateStateEvent();
+    updateStateEvent(true);
   }
 }
