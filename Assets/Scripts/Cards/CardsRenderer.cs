@@ -28,11 +28,15 @@ public class CardsRenderer : MonoBehaviour
   private CardItem hoverCard;
     void Start()
     {
+      
+    }
+
+    public void Init(){
       items = new List<CardItem>();        
       hand = GetComponent<Hand>();
       InitCardsFactory();
       hand.SetUpdateEvent(DrawCards);
-      DrawCards(true);
+      // DrawCards(true);
     }
 
     private void InitCardsFactory(){
@@ -43,8 +47,8 @@ public class CardsRenderer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OnMouseMovement();
-        OnMouseClick();
+        // OnMouseMovement();
+        // OnMouseClick();
     }
 
     private void OnMouseMovement(){
@@ -89,11 +93,20 @@ public class CardsRenderer : MonoBehaviour
       item.ChangeColor(Color.white);
     }
 
+    public void SetHand(Hand hand){
+      this.hand = hand;
+      DrawCards(true);
+      // TODO: sprawdzić, czy to będzie ok
+    }
+
+  // TODO: trzeba to poprzeglądać i poprawić
+    public void UpdateHand(){
+      DrawCards(true); // TODO: to chyba powinno być trochę inaczej
+    }
+
     public void DrawCards(bool createNew){
       // TODO: tutaj chyba nie za każdym razem będzie tworzenie nowych kart. Czsami po prostu będzie aktualizacja
       List<Card> cards = hand.cards;
-      Debug.unityLogger.Log("DrawCards");
-      Debug.unityLogger.Log(cards);
       if(createNew){
         DestroyAllCards();
         CreateCardsItems(cards);

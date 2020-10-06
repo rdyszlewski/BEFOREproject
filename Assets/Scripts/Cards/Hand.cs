@@ -22,11 +22,11 @@ public class Hand : MonoBehaviour {
     _cards = new List<Card>();
     InitCardsFactory();
     InitChosenCards();
-    Card card1 = cardFactory.GetCard(CardType.MOVE_HORIZONTAL);
-    Card card2 = cardFactory.GetCard(CardType.MOVE_VERTICAL);
-    _cards.Add(card1);
-    _cards.Add(card2);
-    RunUpdateHandEvent(true);
+    // Card card1 = cardFactory.GetCard(CardType.MOVE_HORIZONTAL);
+    // Card card2 = cardFactory.GetCard(CardType.MOVE_VERTICAL);
+    // _cards.Add(card1);
+    // _cards.Add(card2);
+    // RunUpdateHandEvent(true);
   }
 
   private void InitCardsFactory(){

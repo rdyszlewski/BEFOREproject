@@ -6,6 +6,10 @@ TagManager:
   tags:
   - CardsFactory
   - ChosenCards
+  - Hand
+  - Deck
+  - Round
+  - Board
   layers:
   - Default
   - TransparentFX
