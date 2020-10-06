@@ -46,5 +46,14 @@ public class CardFactory : MonoBehaviour {
     return null;
   }
 
-
+  public CardItem CreateCardItem(CardType type, Transform parent, Vector3 size){
+    GameObject gameObject = Instantiate(cardItemObject, transform.position, Quaternion.identity, parent);
+    CardItem item = gameObject.GetComponent<CardItem>();
+    Card card = GetCard(type);
+    item.card = card;
+    item.size = size;
+    Texture texture = GetCardItemTexture(type);
+    item.SetupTexture(texture);
+    return item;
+  }
 }

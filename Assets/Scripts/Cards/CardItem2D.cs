@@ -33,7 +33,7 @@ public class CardItem2D : CardItem
       this.transform.localScale = new Vector3(size.x/ renderer.sprite.texture.width * renderer.sprite.pixelsPerUnit,
       size.y / renderer.sprite.texture.height * renderer.sprite.pixelsPerUnit, 1);
       if(collider){
-        collider.size = new Vector2(1,1);
+        collider.size = new Vector2(size.x/ transform.localScale.x, size.y / transform.localScale.y);
       }
     }
   }

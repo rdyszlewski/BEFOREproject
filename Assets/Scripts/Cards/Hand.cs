@@ -15,10 +15,13 @@ public class Hand : MonoBehaviour {
   }
   private UpdateHand updateEvent;
   private CardFactory cardFactory;
-  // Start is called before the first frame update
+
+  private SelectedCards chosenCards; // TODO: to później będzie trzeba usunąć
+  
   void Start () {
     _cards = new List<Card>();
-    cardFactory = GetComponent<CardFactory>();
+    InitCardsFactory();
+    InitChosenCards();
     Card card1 = cardFactory.GetCard(CardType.MOVE_HORIZONTAL);
     Card card2 = cardFactory.GetCard(CardType.MOVE_VERTICAL);
     _cards.Add(card1);
@@ -26,6 +29,15 @@ public class Hand : MonoBehaviour {
     RunUpdateHandEvent(true);
   }
 
+  private void InitCardsFactory(){
+    GameObject gameObject = GameObject.FindGameObjectWithTag("CardsFactory");
+    cardFactory = gameObject.GetComponent<CardFactory>();
+  }
+
+  private void InitChosenCards(){
+    GameObject gameObject = GameObject.FindGameObjectWithTag("ChosenCards");
+    chosenCards = gameObject.GetComponent<SelectedCards>();
+  }
 
   // Update is called once per frame
   void Update () {
@@ -50,11 +62,16 @@ public class Hand : MonoBehaviour {
 
   public void RemoveCard(Card card){
     _cards.Remove(card);
+    RunUpdateHandEvent(true);
     // TODO: najpierw można tutaj zrobić animacje
   }
 
   public void ChooseCard(Card card){
     // TODO: wybieranie karty. Dodanie do kart wybranych, usunięcie kart
+    Debug.unityLogger.Log("ChooseCard");
+    chosenCards.PutCard(card);
+
+    cards.Remove(card);
   }
 
 }

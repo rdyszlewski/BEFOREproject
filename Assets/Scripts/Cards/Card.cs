@@ -5,4 +5,10 @@ public class Card{
     get{return _type;}
     set{_type = value;}
   }
+
+  private bool _reveal = true;
+  public bool reveal{
+    get{return _reveal;}
+    set{_reveal = value;}
+  }
 }

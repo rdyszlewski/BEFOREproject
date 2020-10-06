@@ -24,19 +24,69 @@ public class CardsRenderer : MonoBehaviour
   private CardFactory cardsFactory;
 
   private List<CardItem> items;
+
+  private CardItem hoverCard;
     void Start()
     {
       items = new List<CardItem>();        
       hand = GetComponent<Hand>();
-      cardsFactory = GetComponent<CardFactory>();
+      InitCardsFactory();
       hand.SetUpdateEvent(DrawCards);
       DrawCards(true);
+    }
+
+    private void InitCardsFactory(){
+      GameObject gameObject = GameObject.FindGameObjectWithTag("CardsFactory");
+      cardsFactory = gameObject.GetComponent<CardFactory>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        OnMouseMovement();
+        OnMouseClick();
+    }
+
+    private void OnMouseMovement(){
+      RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0f, LayerMask.GetMask("Card"));
+      if(hit){
+        GameObject gameObject = hit.collider.gameObject;
+        CardItem item = gameObject.GetComponent<CardItem>();
+        if(hoverCard == null || item != hoverCard){
+          ResetHoverCard();
+          SelectCard(item);
+          hoverCard = item;
+        }
+      } else {
+        ResetHoverCard();
+      }
+    }
+
+    private void OnMouseClick(){
+      if(Input.GetMouseButtonDown(0) && hoverCard != null){
+        // TODO: tutaj powinno być jeszcze jakieś usuwanie tego 
+        hand.ChooseCard(hoverCard.card);
+        // TODO: to usuwanie powinno być w innym miejscu
+        hand.RemoveCard(hoverCard.card);
+
+        items.Remove(hoverCard);
+        hoverCard = null;
+      }
+    }
+
+    private void ResetHoverCard(){
+      if(hoverCard != null){
+        DeselectCard(hoverCard);
+        hoverCard = null;
+      }
+    }
+
+    private void SelectCard(CardItem item){
+      item.ChangeColor(Color.blue);
+    }
+
+    private void DeselectCard(CardItem item){
+      item.ChangeColor(Color.white);
     }
 
     public void DrawCards(bool createNew){
@@ -45,8 +95,14 @@ public class CardsRenderer : MonoBehaviour
       Debug.unityLogger.Log("DrawCards");
       Debug.unityLogger.Log(cards);
       if(createNew){
-        // TODO: usunięcie wszystkich elementów
+        DestroyAllCards();
         CreateCardsItems(cards);
+      }
+    }
+
+    private void DestroyAllCards(){
+      for(int i =0; i< this.transform.childCount; i++){
+        Destroy(transform.GetChild(i).gameObject);
       }
     }
 
