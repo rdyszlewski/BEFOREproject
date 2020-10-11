@@ -63,9 +63,16 @@ public abstract class BattlePlayer : MonoBehaviour
         _hand.SetCards(cards);
     }
 
+    public void AddCardsToHand(List<Card> cards){
+      foreach(Card card in cards){
+        card.owner = this;
+      }
+      _hand.SetCards(cards);
+    }
+
     // INTERFACE 
     public abstract void ChooseCard(Action<Card> onCompleteCallback);
-    public abstract void ChooseAction(Action<CardAction> onCompleteCallback);
+    public abstract void ChooseAction(Card card, Action<CardAction> onCompleteCallback);
     public abstract void FinishAction();
 
     // TODO: dorzucić akcje wymiany kart, albo czegoś tam jeszcze 

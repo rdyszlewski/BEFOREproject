@@ -9,6 +9,9 @@ public class CardFactory : MonoBehaviour {
     // TODO: pomyśleć dokładnie, czy na pewno to ma przebiegać w tę stronę
     public Card card;
     public Texture texture;
+    
+    public List<ActionType> actions;
+    // TODO: przemyśleć, jak to dokłądnie powinno być
   }
 
   [SerializeField]
@@ -31,6 +34,11 @@ public class CardFactory : MonoBehaviour {
   public Card GetCard (CardType type) {
     if (cardsMap.ContainsKey (type)) {
       CardElement element = cardsMap[type];
+      Card card = element.card;
+      foreach(ActionType actionType in element.actions){
+        card.actions.Add(CardActionFactory.GetAction(actionType));
+      }
+      // TODO: tutaj będzie trzbea zrobić ActionFactory
       return element.card;
       // Card card =  cardsMap.card;
       // card.type = type;
@@ -38,6 +46,8 @@ public class CardFactory : MonoBehaviour {
     }
     return null;
   }
+
+  
 
   public Texture GetCardItemTexture(CardType type){
     if(cardsMap.ContainsKey(type)){

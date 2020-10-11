@@ -13,6 +13,8 @@ public class Pattern : MonoBehaviour {
   private UpdateState updateStateEvent;
   private List<Turn> _turns = new List<Turn> ();
 
+  private bool _reverse;
+
   private PatternGenerator patternGenerator;
 
   public int currentRound {
@@ -29,6 +31,10 @@ public class Pattern : MonoBehaviour {
 
   public List<Turn> turns {
     get { return _turns; }
+  }
+
+  public bool reverse{
+    get{return _reverse;}
   }
 
   public void SetUpdateStateEvent (UpdateState callback) {

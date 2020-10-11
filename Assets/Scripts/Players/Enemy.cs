@@ -5,18 +5,29 @@ using UnityEngine;
 public class Enemy : BattlePlayer
 {
   
-  private Action<Card> onCompleteCallback;
+  private Action<Card> onCompleteCardCallback;
+  private Action<CardAction> onCompleteActionCallback;
   private Card chosenCard;
+  private CardAction chosenAction;
 
-  public override void ChooseAction(Action<CardAction> onCompleteCallback)
+  public override void ChooseAction(Card card,Action<CardAction> onCompleteCallback)
   {
-    throw new NotImplementedException();
+    playerState = PlayerState.ACTION_SELECTING;
+    this.onCompleteActionCallback = onCompleteCallback;
+    Thread thread = new Thread(()=>RunChoosingAction(card));
+    thread.Start();
+  }
+
+  private void RunChoosingAction(Card card){
+    CardAction action = card.actions[0];
+    chosenAction = action;
   }
 
   public override void ChooseCard(Action<Card> onCompleteCallback)
   { 
+    playerState = PlayerState.CARD_SELECTING;
     // TODO: to wszystko prawdopodbnie jest do poprawy
-    this.onCompleteCallback = onCompleteCallback;
+    this.onCompleteCardCallback = onCompleteCallback;
     Thread thread = new Thread(RunChoosingCard);
     thread.Start();
   }
@@ -28,9 +39,30 @@ public class Enemy : BattlePlayer
   }
   
   void Update(){
+    switch(playerState){
+      case PlayerState.CARD_SELECTING:
+        HandleCardSelecting();
+        break;
+      case PlayerState.ACTION_SELECTING:
+        HandleActionSelecting();
+        break;
+    }
+    
+  }
+
+  private void HandleCardSelecting(){
     if(chosenCard != null){
-      onCompleteCallback(chosenCard);
+      onCompleteCardCallback(chosenCard);
       chosenCard = null;
+      playerState = PlayerState.WAITING;
+    }
+  }
+
+  private void HandleActionSelecting(){
+    if(chosenAction != null){
+      onCompleteActionCallback(chosenAction);
+      chosenAction = null;
+      playerState = PlayerState.WAITING;
     }
   }
 

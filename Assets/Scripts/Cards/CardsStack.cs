@@ -35,6 +35,9 @@ public class CardsStack<T>
   }
 
   private T Pop(int index){
+    if(elements.Count == 0){
+      return default(T);
+    }
     T element = elements[index];
     elements.RemoveAt(index);
     return element;

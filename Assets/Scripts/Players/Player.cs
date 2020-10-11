@@ -7,10 +7,11 @@ public class Player : BattlePlayer
   private Action<Card> selectionCardCallback;
 
   private CardSelectionController _cardSelectionController;
+  // TODO: card 
   public CardSelectionController cardSelectionController{
     set{_cardSelectionController = value;}
   }
-  public override void ChooseAction(Action<CardAction> onCompleteCallback)
+  public override void ChooseAction(Card card, Action<CardAction> onCompleteCallback)
   {
     throw new NotImplementedException();
   }
@@ -24,7 +25,7 @@ public class Player : BattlePlayer
 
   public override void FinishAction()
   {
-
+    playerState = PlayerState.WAITING;
   }
 
   void Update(){
