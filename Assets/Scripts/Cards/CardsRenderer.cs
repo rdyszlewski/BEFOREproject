@@ -95,6 +95,7 @@ public class CardsRenderer : MonoBehaviour
 
     public void SetHand(Hand hand){
       this.hand = hand;
+      hand.SetUpdateEvent(DrawCards);
       DrawCards(true);
       // TODO: sprawdzić, czy to będzie ok
     }

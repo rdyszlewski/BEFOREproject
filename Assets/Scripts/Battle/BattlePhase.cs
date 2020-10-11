@@ -1,32 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BattlePhase: MonoBehaviour {
+public abstract class BattlePhase : MonoBehaviour {
 
   private bool _active = false;
 
-    private List<BattlePlayer> _players;
+  // TODO: czy pomysł z takim przekazywaniem daty będzie odpowiedni?
+  private PhaseInitData _data;
 
-    protected List<BattlePlayer> players{
-      get{return _players;}
-    }
-    public abstract void DoAction();
+  protected PhaseInitData data {
+    get { return _data; }
+  }
 
-    public bool IsActive(){
-      return _active;
-    }
+  public abstract void DoAction ();
 
-    public void Run(){
-      OnStart();
-      _active = true;
-    }
-    protected abstract void OnStart();
+  public bool IsActive () {
+    return _active;
+  }
 
-    protected void FinishPhase(){
-      this._active = false;
-    }
+  public void Run () {
+    _active = true;
+    OnStart ();
+  }
+  protected abstract void OnStart ();
 
-    public void SetPlayers(List<BattlePlayer> players){
-      _players = players;
-    }
+  protected void FinishPhase () {
+    this._active = false;
+  }
+
+  public void InitPhase (PhaseInitData data) {
+    _data = data;
+  }
 }

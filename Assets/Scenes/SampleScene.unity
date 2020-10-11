@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 137937399}
   m_Layer: 0
   m_Name: Board
-  m_TagString: Untagged
+  m_TagString: Board
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -260,6 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 149528586}
   - component: {fileID: 149528585}
+  - component: {fileID: 149528587}
   - component: {fileID: 149528584}
   - component: {fileID: 149528583}
   - component: {fileID: 149528582}
@@ -294,6 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12facd2e828a0a995a3936d45dda5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numberCardsOnHand: 5
 --- !u!114 &149528584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +320,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af21c6e59f4910552887a448126fb9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tempPlayer: {fileID: 8755424563005888017, guid: 21c7a101a12aa8811afaf2a9194b2bfb,
+    type: 3}
+  tempEnemy: {fileID: 5896213470646909917, guid: 0a61424a3a04ee84aa8281a558efa64d,
+    type: 3}
 --- !u!4 &149528586
 Transform:
   m_ObjectHideFlags: 0
@@ -332,6 +338,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &149528587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149528581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8f89f002d0d4427d8e74cbb04213871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxTurns: 3
+  minTurns: 1
+  minCards: 3
+  maxCards: 5
+  minSteps: 1
+  maxSteps: 1
+  allowHidden: 1
 --- !u!1 &282840810
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,7 +556,7 @@ GameObject:
   - component: {fileID: 605916035}
   m_Layer: 0
   m_Name: RoundPattern
-  m_TagString: Untagged
+  m_TagString: Round
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -628,11 +653,11 @@ GameObject:
   - component: {fileID: 888158722}
   m_Layer: 0
   m_Name: Deck
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &888158722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -686,7 +711,7 @@ GameObject:
   - component: {fileID: 1399351011}
   m_Layer: 0
   m_Name: Hand
-  m_TagString: Untagged
+  m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

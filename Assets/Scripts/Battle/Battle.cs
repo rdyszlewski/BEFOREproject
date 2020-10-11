@@ -14,7 +14,7 @@ public class Battle : MonoBehaviour {
   private Board board;
   private SelectedCards chosenCards;
   private Pattern roundPattern;
-  
+
   [SerializeField]
   private GameObject tempPlayer;
 
@@ -25,88 +25,121 @@ public class Battle : MonoBehaviour {
 
   private CardFactory cardFactory;
 
+  private PhaseInitData data;
+
+  private bool initialized = false;
+
   void Start () {
-    Init();
+    Init ();
+    initialized = true;
+    Debug.unityLogger.Log("Start finished");
   }
 
-  private void Init(){
-    InitComponents();
-    InitPlayers();
-    InitPhases();
-    InitBattleBoard();
+  private void Init () {
+    InitComponents ();
+    InitPlayers ();
+    InitPhases ();
+    InitBattleBoard ();
+    
     // TODO: wziąć HandRenderer i ustawić tam gracza
   }
 
-  private void InitComponents(){
-    InitHand();
-    InitBoard();
-    InitSelectedCards();
-    InitRoundPattern();
-    InitCardFactory();
+  private void InitComponents () {
+    InitHand ();
+    InitBoard ();
+    InitSelectedCards ();
+    InitRoundPattern ();
+    InitCardFactory ();
+
+    data = new PhaseInitData ();
+    data.hand = hand;
+    data.board = board;
+    data.selectedCards = chosenCards;
+    data.roundPattern = roundPattern;
+    data.cardsFactory = cardFactory;
+    data.cardsRenderer = handRenderer;
   }
 
-  private void InitHand(){
-     GameObject gameObject = GameObject.FindGameObjectWithTag("Hand");
-     hand = gameObject.GetComponent<Hand>();
-     handRenderer = gameObject.GetComponent<CardsRenderer>();
-     handRenderer.Init();
+  private void InitHand () {
+    GameObject gameObject = GameObject.FindGameObjectWithTag ("Hand");
+    hand = gameObject.GetComponent<Hand> ();
+    handRenderer = gameObject.GetComponent<CardsRenderer> ();
+    handRenderer.Init ();
   }
 
-  private void InitBoard(){
-    GameObject gameObject = GameObject.FindGameObjectWithTag("Board");
-    board = gameObject.GetComponent<Board>();
+  private void InitBoard () {
+    GameObject gameObject = GameObject.FindGameObjectWithTag ("Board");
+    board = gameObject.GetComponent<Board> ();
   }
 
-  private void InitSelectedCards(){
-    GameObject gameObject = GameObject.FindGameObjectWithTag("ChosenCards");
-    chosenCards = gameObject.GetComponent<SelectedCards>();
+  private void InitSelectedCards () {
+    GameObject gameObject = GameObject.FindGameObjectWithTag ("ChosenCards");
+    chosenCards = gameObject.GetComponent<SelectedCards> ();
   }
 
-  private void InitRoundPattern(){
-    GameObject gameObject = GameObject.FindGameObjectWithTag("Round");
-    roundPattern = gameObject.GetComponent<Pattern>();
+  private void InitRoundPattern () {
+    GameObject gameObject = GameObject.FindGameObjectWithTag ("Round");
+    roundPattern = gameObject.GetComponent<Pattern> ();
   }
 
-  private void InitCardFactory(){
-    GameObject gameObject = GameObject.FindGameObjectWithTag("CardsFactory");
-    cardFactory = gameObject.GetComponent<CardFactory>();
+  private void InitCardFactory () {
+    GameObject gameObject = GameObject.FindGameObjectWithTag ("CardsFactory");
+    cardFactory = gameObject.GetComponent<CardFactory> ();
   }
 
-  private void InitBattleBoard(){
-    board.LoadBoard();
+  private void InitBattleBoard () {
+    board.LoadBoard ();
   }
 
-     private void InitPlayers(){
-      BattlePlayer player = tempPlayer.GetComponent<Player>();
-      player.Init();
-      player.deck.SetCards(DeckCreator.CreateRandomCards(15, cardFactory));
-      BattlePlayer enemy = tempEnemy.GetComponent<Enemy>();
-      enemy.Init();
-      enemy.deck.SetCards(DeckCreator.CreateRandomCards(15, cardFactory));
-      players = new List<BattlePlayer>();
-      players.Add(player);
-      players.Add(enemy);
+  private void InitPlayers () {
+    GameObject playerObject = Instantiate (tempPlayer.gameObject, transform.position, Quaternion.identity, transform) as GameObject;
+    // BattlePlayer player = tempPlayer.GetComponent<Player>();
+    BattlePlayer player = playerObject.GetComponent<Player> ();
+    player.Initialization();
+    CardSelectionController cardSelectionController = new CardSelectionController (handRenderer);
+    (player as Player).cardSelectionController = cardSelectionController;
 
-      // TODO: później przenieść to w inny miejsce
-      handRenderer.SetHand(player.hand);
-      
+    GameObject enemyObject = Instantiate(tempEnemy, transform.position, Quaternion.identity, transform);
+    // BattlePlayer enemy = tempEnemy.GetComponent<Enemy> ();
+    BattlePlayer enemy = enemyObject.GetComponent<Enemy>();
+    enemy.Initialization();
+    players = new List<BattlePlayer> ();
+    players.Add (player);
+    players.Add (enemy);
+
+    // TODO: później przenieść to w inny miejsce
+    handRenderer.SetHand (player.hand);
+    data.players = players;
+  }
+
+  private void InitPhases () {
+    BattlePhase generationPhase = GetComponent<GenerationPhase> ();
+    generationPhase.InitPhase (data);
+    BattlePhase preparationPhase = GetComponent<PreparationPhase> ();
+    preparationPhase.InitPhase (data);
+    BattlePhase cardPhase = GetComponent<CardPhase> ();
+    cardPhase.InitPhase (data);
+    BattlePhase actionPhase = GetComponent<ActionPhase> ();
+    actionPhase.InitPhase (data);
+
+    phases = new List<BattlePhase> () {
+      generationPhase,
+      preparationPhase,
+      cardPhase,
+      actionPhase
+    };
+
+    foreach(BattlePlayer player in players){
+      player.deck.SetCards (DeckCreator.CreateRandomCards (15, cardFactory));
     }
 
-  private void InitPhases(){
-    BattlePhase preparationPhase = GetComponent<PreparationPhase>();
-    BattlePhase cardPhase = GetComponent<CardPhase>();
-    BattlePhase actionPhase = GetComponent<ActionPhase>();
-    phases = new List<BattlePhase>(){
-      preparationPhase, cardPhase, actionPhase
-    };
-    currentPhase = NextPhase();
-    currentPhase.SetPlayers(players);
-    currentPhase.Run();
+    currentPhase = NextPhase ();
+    currentPhase.Run ();
   }
 
-  private BattlePhase NextPhase(){
+  private BattlePhase NextPhase () {
     currentPhaseIndex++;
-    if(currentPhaseIndex >= phases.Count){
+    if (currentPhaseIndex >= phases.Count) {
       currentPhaseIndex = 0;
     }
     return phases[currentPhaseIndex];
@@ -114,12 +147,17 @@ public class Battle : MonoBehaviour {
 
   // Update is called once per frame
   void Update () {
-    if(currentPhase && currentPhase.IsActive()){
-      currentPhase.DoAction();
-    } else {
-      currentPhase = NextPhase();
-      currentPhase.SetPlayers(players);
-      currentPhase.Run();
+    if(initialized){
+      if (!currentPhase.IsActive ()) {
+        Debug.unityLogger.Log ("Nie jestem aktywny. Ratunku");
+      }
+      if (currentPhase && currentPhase.IsActive ()) {
+        currentPhase.DoAction(); // TODO: czy to będzie potrzebne w Update ?
+      } else {
+        Debug.unityLogger.Log ("Zmiana fazy");
+        currentPhase = NextPhase ();
+        currentPhase.Run ();
+      }
     }
   }
 }

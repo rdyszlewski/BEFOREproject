@@ -37,7 +37,7 @@ public class PatternRenderer : MonoBehaviour {
     items = new List<PatternItem> ();
     pattern = GetComponent<Pattern>();
     pattern.SetUpdateStateEvent(UpdateState);
-    pattern.LoadPattern();
+    // pattern.LoadPattern(); // TODO: tego na razie nie będzie
     SetupPattern(pattern.turns);
     UpdateState(false);
     Debug.unityLogger.Log(pattern.turns);
