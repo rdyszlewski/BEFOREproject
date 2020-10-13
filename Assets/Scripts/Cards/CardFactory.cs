@@ -21,30 +21,44 @@ public class CardFactory : MonoBehaviour {
   private GameObject cardItemObject;
 
   private Dictionary<CardType, CardElement> cardsMap;
+  
+  private CardActionFactory actionFactory;
 
   void Awake () {
     cardsMap = new Dictionary<CardType, CardElement> ();
+    // TODO: to jest chyba trochę bez sensu
     foreach (CardElement element in cards) {
       element.card = new Card();
       element.card.type = element.type;
       cardsMap.Add (element.type, element);
     }
+    actionFactory = GetComponent<CardActionFactory>();
   }
 
   public Card GetCard (CardType type) {
-    if (cardsMap.ContainsKey (type)) {
-      CardElement element = cardsMap[type];
-      Card card = element.card;
-      foreach(ActionType actionType in element.actions){
-        card.actions.Add(CardActionFactory.GetAction(actionType));
-      }
-      // TODO: tutaj będzie trzbea zrobić ActionFactory
-      return element.card;
-      // Card card =  cardsMap.card;
-      // card.type = type;
+    // if (cardsMap.ContainsKey (type)) {
+    //   CardElement element = cardsMap[type];
+    //   Card card = element.card;
+    //   foreach(ActionType actionType in element.actions){
+    //     card.actions.Add(actionFactory.GetAction(actionType));
+    //   }
+    //   // TODO: tutaj będzie trzbea zrobić ActionFactory
+    //   return element.card;
+    //   // Card card =  cardsMap.card;
+    //   // card.type = type;
 
+    // }
+    // return null;
+    
+    Card card = new Card();
+    card.type = type;
+    Debug.Assert(cardsMap.ContainsKey(type));
+    CardElement element = cardsMap[type];
+    foreach(ActionType actionType in element.actions){
+      CardAction action = actionFactory.GetAction(actionType);
+      card.actions.Add(action);
     }
-    return null;
+    return card;
   }
 
   

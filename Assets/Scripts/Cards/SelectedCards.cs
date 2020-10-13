@@ -35,9 +35,11 @@ public class SelectedCards : MonoBehaviour {
 
   public Card RevealCard (bool reverse) {
     Card card = reverse ? cards.PopLast () : cards.PopFirst ();
+    if(card != null){
+      revealCardEvent (card, DeckAction.REVEAL);
+      currentCard = card;
+    }
     // TODO: czy na pewno tutaj będzie usuwana karta?
-    revealCardEvent (card, DeckAction.REVEAL);
-    currentCard = card;
     return card;
   }
 }

@@ -9,6 +9,7 @@ public class PhaseInitData{
   private Pattern _roundPattern;
   private CardsRenderer _cardsRenderer;
   private CardFactory _cardFactory;
+  private ActionRenderer _actionRenderer;
 
   public List<BattlePlayer> players{
     get{return _players;}
@@ -43,6 +44,11 @@ public class PhaseInitData{
   public CardFactory cardsFactory{
     get{return _cardFactory;}
     set{_cardFactory = value;}
+  }
+
+  public ActionRenderer actionRenderer {
+    get{return _actionRenderer;}
+    set{_actionRenderer = value;}
   }
 
 }

@@ -25,10 +25,14 @@ public abstract class BattlePhase : MonoBehaviour {
   protected abstract void OnStart ();
 
   protected void FinishPhase () {
+    OnFinishPhase();
     this._active = false;
   }
 
+  protected abstract void OnFinishPhase(); // TODO: dobrze się nad tym zastanowić
+
   public void InitPhase (PhaseInitData data) {
     _data = data;
+    // TODO: to prawdopodobnie będzie wyglądało inaczej
   }
 }

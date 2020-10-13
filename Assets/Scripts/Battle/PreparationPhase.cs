@@ -29,4 +29,8 @@ public class PreparationPhase : BattlePhase {
     // TODO: można zrobić, aby użytkownik musiał potwierdzić wybór kart. Wymiana niepasujących kart
   }
 
+  protected override void OnFinishPhase()
+  {
+    // TODO: tutaj też chyba nic się nie dzieje
+  }
 }

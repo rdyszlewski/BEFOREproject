@@ -47,7 +47,6 @@ public class Enemy : BattlePlayer
         HandleActionSelecting();
         break;
     }
-    
   }
 
   private void HandleCardSelecting(){
@@ -60,6 +59,7 @@ public class Enemy : BattlePlayer
 
   private void HandleActionSelecting(){
     if(chosenAction != null){
+      Debug.unityLogger.Log("Wróg skończył wybieranie karty");
       onCompleteActionCallback(chosenAction);
       chosenAction = null;
       playerState = PlayerState.WAITING;
@@ -68,7 +68,7 @@ public class Enemy : BattlePlayer
 
   public override void FinishAction()
   {
-    throw new NotImplementedException();
+    // TODO: tutaj nie mam pojęcia, co tutaj ma być
   }
 
 }

@@ -29,6 +29,11 @@ public class GenerationPhase : BattlePhase
 
   }
 
+  protected override void OnFinishPhase()
+  {
+    // TODO: tutaj chyba nic się nie dzieje
+  }
+
   protected override void OnStart()
   {
     Debug.unityLogger.Log("Rozpoczęto fazę generowania rundy");

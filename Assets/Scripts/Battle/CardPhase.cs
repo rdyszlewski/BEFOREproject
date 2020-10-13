@@ -93,4 +93,10 @@ public class CardPhase : BattlePhase
     }
     return _players[currentPlayerIndex];
   }
+
+  protected override void OnFinishPhase()
+  {
+    data.cardsRenderer.DestroyAllCards();
+    // TODO: może istnieje jakiś inny sposób, żeby to zrobić
+  }
 }

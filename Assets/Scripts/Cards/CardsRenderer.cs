@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardsRenderer : MonoBehaviour
-{
+public class CardsRenderer : MonoBehaviour {
 
   [SerializeField]
   private Vector3 size;
@@ -13,7 +12,7 @@ public class CardsRenderer : MonoBehaviour
 
   [SerializeField]
   private Vector3 itemSize;
-  
+
   [SerializeField]
   private float breakSize;
 
@@ -26,129 +25,79 @@ public class CardsRenderer : MonoBehaviour
   private List<CardItem> items;
 
   private CardItem hoverCard;
-    void Start()
-    {
-      
-    }
+  void Start () {
 
-    public void Init(){
-      items = new List<CardItem>();        
-      hand = GetComponent<Hand>();
-      InitCardsFactory();
-      hand.SetUpdateEvent(DrawCards);
-      // DrawCards(true);
-    }
+  }
 
-    private void InitCardsFactory(){
-      GameObject gameObject = GameObject.FindGameObjectWithTag("CardsFactory");
-      cardsFactory = gameObject.GetComponent<CardFactory>();
-    }
+  public void Init () {
+    items = new List<CardItem> ();
+    hand = GetComponent<Hand> ();
+    InitCardsFactory ();
+    hand.SetUpdateEvent (DrawCards);
+    // DrawCards(true);
+  }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // OnMouseMovement();
-        // OnMouseClick();
-    }
+  private void InitCardsFactory () {
+    GameObject gameObject = GameObject.FindGameObjectWithTag ("CardsFactory");
+    cardsFactory = gameObject.GetComponent<CardFactory> ();
+  }
 
-    private void OnMouseMovement(){
-      RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 0f, LayerMask.GetMask("Card"));
-      if(hit){
-        GameObject gameObject = hit.collider.gameObject;
-        CardItem item = gameObject.GetComponent<CardItem>();
-        if(hoverCard == null || item != hoverCard){
-          ResetHoverCard();
-          SelectCard(item);
-          hoverCard = item;
-        }
-      } else {
-        ResetHoverCard();
-      }
-    }
-
-    private void OnMouseClick(){
-      if(Input.GetMouseButtonDown(0) && hoverCard != null){
-        // TODO: tutaj powinno być jeszcze jakieś usuwanie tego 
-        hand.ChooseCard(hoverCard.card);
-        // TODO: to usuwanie powinno być w innym miejscu
-        hand.RemoveCard(hoverCard.card);
-
-        items.Remove(hoverCard);
-        hoverCard = null;
-      }
-    }
-
-    private void ResetHoverCard(){
-      if(hoverCard != null){
-        DeselectCard(hoverCard);
-        hoverCard = null;
-      }
-    }
-
-    private void SelectCard(CardItem item){
-      item.ChangeColor(Color.blue);
-    }
-
-    private void DeselectCard(CardItem item){
-      item.ChangeColor(Color.white);
-    }
-
-    public void SetHand(Hand hand){
-      this.hand = hand;
-      hand.SetUpdateEvent(DrawCards);
-      DrawCards(true);
-      // TODO: sprawdzić, czy to będzie ok
-    }
+  public void SetHand (Hand hand) {
+    this.hand = hand;
+    hand.SetUpdateEvent (DrawCards);
+    DrawCards (true);
+    // TODO: sprawdzić, czy to będzie ok
+  }
 
   // TODO: trzeba to poprzeglądać i poprawić
-    public void UpdateHand(){
-      DrawCards(true); // TODO: to chyba powinno być trochę inaczej
+  public void UpdateHand () {
+    DrawCards (true); // TODO: to chyba powinno być trochę inaczej
+  }
+
+  public void DrawCards (bool createNew) {
+    // TODO: tutaj chyba nie za każdym razem będzie tworzenie nowych kart. Czsami po prostu będzie aktualizacja
+    List<Card> cards = hand.cards;
+    if (createNew) {
+      DestroyAllCards ();
+      CreateCardsItems (cards);
     }
+  }
 
-    public void DrawCards(bool createNew){
-      // TODO: tutaj chyba nie za każdym razem będzie tworzenie nowych kart. Czsami po prostu będzie aktualizacja
-      List<Card> cards = hand.cards;
-      if(createNew){
-        DestroyAllCards();
-        CreateCardsItems(cards);
-      }
+  public void DestroyAllCards () {
+    for (int i = 0; i < this.transform.childCount; i++) {
+      Destroy (transform.GetChild (i).gameObject);
     }
+  }
 
-    private void DestroyAllCards(){
-      for(int i =0; i< this.transform.childCount; i++){
-        Destroy(transform.GetChild(i).gameObject);
-      }
+  private void CreateCardsItems (List<Card> cards) {
+    // TODO: obliczyć rozmiary wszystkich elementów
+    if (cards == null) {
+      return;
     }
-
-    private void CreateCardsItems(List<Card> cards){
-      // TODO: obliczyć rozmiary wszystkich elementów
-      if(cards == null){
-        return;
-      }
-      Vector3 currentPosition = new Vector3(positionCenter.x - cards.Count/2 * itemSize.x + itemSize.x/2, positionCenter.y, 1);
-      foreach(Card card in cards){
-        GameObject itemObject = Instantiate(cardItemObject, currentPosition, Quaternion.identity, transform);
-        Debug.unityLogger.Log(itemSize);
-        // itemObject.transform.localScale = itemSize;
-        CardItem item = itemObject.GetComponent<CardItem>();
-        item.size = itemSize;
-        item.card = card;
-        item.SetupTexture(cardsFactory.GetCardItemTexture(card.type));
-        currentPosition.x = currentPosition.x + itemSize.x + breakSize;
-        items.Add(item);
-      }
+    Vector3 currentPosition = new Vector3 (positionCenter.x - cards.Count / 2 * itemSize.x + itemSize.x / 2, positionCenter.y, 1);
+    foreach (Card card in cards) {
+      GameObject itemObject = Instantiate (cardItemObject, currentPosition, Quaternion.identity, transform);
+      Debug.unityLogger.Log (itemSize);
+      // itemObject.transform.localScale = itemSize;
+      CardItem item = itemObject.GetComponent<CardItem> ();
+      item.size = itemSize;
+      item.card = card;
+      item.SetupTexture (cardsFactory.GetCardItemTexture (card.type));
+      currentPosition.x = currentPosition.x + itemSize.x + breakSize;
+      items.Add (item);
     }
+  }
 
-    void OnDrawGizmos(){
-      Gizmos.color = Color.green;
-      Gizmos.DrawWireCube(positionCenter, size);
+  void OnDrawGizmos () {
+    Gizmos.color = Color.green;
+    Gizmos.DrawWireCube (positionCenter, size);
 
-      Gizmos.color = Color.blue;
-      Gizmos.DrawWireCube(positionCenter, itemSize);
+    Gizmos.color = Color.blue;
+    Gizmos.DrawWireCube (positionCenter, itemSize);
 
-      Gizmos.color = Color.black;
-      Vector3 lineBegin = new Vector3(positionCenter.x + itemSize.x/2, positionCenter.y, 1);
-      Vector3 lineEnd = new Vector3(lineBegin.x + breakSize, lineBegin.y, lineBegin.z);
-      Gizmos.DrawLine(lineBegin, lineEnd);
-    }
+    Gizmos.color = Color.black;
+    Vector3 lineBegin = new Vector3 (positionCenter.x + itemSize.x / 2, positionCenter.y, 1);
+    Vector3 lineEnd = new Vector3 (lineBegin.x + breakSize, lineBegin.y, lineBegin.z);
+    Gizmos.DrawLine (lineBegin, lineEnd);
+  }
 }

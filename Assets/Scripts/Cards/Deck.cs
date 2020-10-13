@@ -7,6 +7,7 @@ using UnityEngine;
 public class Deck : MonoBehaviour
 {   
 
+  // TODO: prawdopodobnie można tutaj wstawić ownera
   [SerializeField]
   private List<Card> allCards = new List<Card>();
 

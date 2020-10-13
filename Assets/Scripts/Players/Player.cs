@@ -5,15 +5,25 @@ public class Player : BattlePlayer
 {
 
   private Action<Card> selectionCardCallback;
+  private Action<CardAction> selectionActionCallback;
 
   private CardSelectionController _cardSelectionController;
   // TODO: card 
   public CardSelectionController cardSelectionController{
     set{_cardSelectionController = value;}
   }
+
+  private ActionSelectionController _actionSelectionController;
+  public ActionSelectionController actionSelectionController{
+    set{_actionSelectionController = value;}
+  }
+
   public override void ChooseAction(Card card, Action<CardAction> onCompleteCallback)
   {
-    throw new NotImplementedException();
+    Debug.unityLogger.Log("ChooseAction");
+    selectionActionCallback = onCompleteCallback;
+    playerState = PlayerState.ACTION_SELECTING;
+
   }
 
   public override void ChooseCard(Action<Card> onCompleteCallback)
@@ -41,7 +51,7 @@ public class Player : BattlePlayer
         HandleCardSelection();
         break;
       case PlayerState.ACTION_SELECTING:
-        HandleCardSelection();
+        HandleActionSelection();
         break;
       // TODO: obsłużyć reszte stanów
     }
@@ -53,6 +63,14 @@ public class Player : BattlePlayer
       Debug.Assert(selectionCardCallback != null,"Callback cannot be null in this state (CARD_SELECTING)");
       this.playerState = PlayerState.WAITING;
       selectionCardCallback(_cardSelectionController.selectedCard.card);
+    }
+  }
+
+  private void HandleActionSelection(){
+    _actionSelectionController.Update();
+    if(Input.GetMouseButton(0) && _actionSelectionController.selectedCard != null){
+      this.playerState = PlayerState.WAITING;
+      selectionActionCallback(_actionSelectionController.selectedCard.action);
     }
   }
 }

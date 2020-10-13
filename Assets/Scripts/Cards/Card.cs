@@ -32,7 +32,6 @@ public class Card{
 
   public List<CardAction> actions{
     get{
-      Debug.unityLogger.Log(actions.Count);
       return _actions;
       }
     set{_actions = value;}

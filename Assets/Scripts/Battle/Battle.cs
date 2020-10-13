@@ -22,6 +22,7 @@ public class Battle : MonoBehaviour {
   private GameObject tempEnemy;
 
   private CardsRenderer handRenderer;
+  private ActionRenderer actionRenderer;
 
   private CardFactory cardFactory;
 
@@ -32,7 +33,7 @@ public class Battle : MonoBehaviour {
   void Start () {
     Init ();
     initialized = true;
-    Debug.unityLogger.Log("Start finished");
+    Debug.unityLogger.Log ("Start finished");
   }
 
   private void Init () {
@@ -40,7 +41,7 @@ public class Battle : MonoBehaviour {
     InitPlayers ();
     InitPhases ();
     InitBattleBoard ();
-    
+
     // TODO: wziąć HandRenderer i ustawić tam gracza
   }
 
@@ -50,7 +51,9 @@ public class Battle : MonoBehaviour {
     InitSelectedCards ();
     InitRoundPattern ();
     InitCardFactory ();
+    InitActionRenderer();
 
+    // TODO: to można zrobić inaczej
     data = new PhaseInitData ();
     data.hand = hand;
     data.board = board;
@@ -58,6 +61,7 @@ public class Battle : MonoBehaviour {
     data.roundPattern = roundPattern;
     data.cardsFactory = cardFactory;
     data.cardsRenderer = handRenderer;
+    data.actionRenderer = actionRenderer;
   }
 
   private void InitHand () {
@@ -87,29 +91,48 @@ public class Battle : MonoBehaviour {
     cardFactory = gameObject.GetComponent<CardFactory> ();
   }
 
+  private void InitActionRenderer () {
+    GameObject gameObject = GameObject.FindGameObjectWithTag ("Actions");
+    actionRenderer = gameObject.GetComponent<ActionRenderer> ();
+    actionRenderer.Init();
+  }
+
   private void InitBattleBoard () {
     board.LoadBoard ();
   }
 
   private void InitPlayers () {
-    GameObject playerObject = Instantiate (tempPlayer.gameObject, transform.position, Quaternion.identity, transform) as GameObject;
-    // BattlePlayer player = tempPlayer.GetComponent<Player>();
-    BattlePlayer player = playerObject.GetComponent<Player> ();
-    player.Initialization();
-    CardSelectionController cardSelectionController = new CardSelectionController (handRenderer);
-    (player as Player).cardSelectionController = cardSelectionController;
+    BattlePlayer player = CreatePlayerTemp ();
+    BattlePlayer enemy = CreateEnemyTemp ();
 
-    GameObject enemyObject = Instantiate(tempEnemy, transform.position, Quaternion.identity, transform);
-    // BattlePlayer enemy = tempEnemy.GetComponent<Enemy> ();
-    BattlePlayer enemy = enemyObject.GetComponent<Enemy>();
-    enemy.Initialization();
     players = new List<BattlePlayer> ();
     players.Add (player);
     players.Add (enemy);
 
     // TODO: później przenieść to w inny miejsce
-    handRenderer.SetHand (player.hand);
+    handRenderer.SetHand (player.hand); // TODO: pomyśleć, jak to powinno być
     data.players = players;
+  }
+
+  private BattlePlayer CreatePlayerTemp () {
+    GameObject playerObject = Instantiate (tempPlayer.gameObject, transform.position, Quaternion.identity, transform) as GameObject;
+    // BattlePlayer player = tempPlayer.GetComponent<Player>();
+    BattlePlayer player = playerObject.GetComponent<Player> ();
+    player.Initialization ();
+    // TODO: sprawdzić, czy to jest odpowiednie miejsce, żeby to przekazywać. Czy nie można tego zrobić jakoś w klasie Player
+    CardSelectionController cardSelectionController = new CardSelectionController (handRenderer);
+    (player as Player).cardSelectionController = cardSelectionController;
+    ActionSelectionController actionSelectionController = new ActionSelectionController (actionRenderer);
+    (player as Player).actionSelectionController = actionSelectionController;
+    return player;
+  }
+
+  private BattlePlayer CreateEnemyTemp () {
+    GameObject enemyObject = Instantiate (tempEnemy, transform.position, Quaternion.identity, transform);
+    // BattlePlayer enemy = tempEnemy.GetComponent<Enemy> ();
+    BattlePlayer enemy = enemyObject.GetComponent<Enemy> ();
+    enemy.Initialization ();
+    return enemy;
   }
 
   private void InitPhases () {
@@ -129,8 +152,13 @@ public class Battle : MonoBehaviour {
       actionPhase
     };
 
-    foreach(BattlePlayer player in players){
-      player.deck.SetCards (DeckCreator.CreateRandomCards (15, cardFactory));
+    foreach (BattlePlayer player in players) {
+      // TODO: to raczej powinno być w innym miejscu
+      List<Card> cards = DeckCreator.CreateRandomCards (15, cardFactory);
+      foreach (Card card in cards) {
+        card.owner = player;
+      }
+      player.deck.SetCards (cards);
     }
 
     currentPhase = NextPhase ();
@@ -140,23 +168,28 @@ public class Battle : MonoBehaviour {
   private BattlePhase NextPhase () {
     currentPhaseIndex++;
     if (currentPhaseIndex >= phases.Count) {
-      currentPhaseIndex = 0;
+      // currentPhaseIndex = 0;
+      Debug.unityLogger.Log ("Gratulacje, skończono gre");
+      return null;
     }
     return phases[currentPhaseIndex];
   }
 
   // Update is called once per frame
   void Update () {
-    if(initialized){
+    if (initialized && currentPhase != null) {
       if (!currentPhase.IsActive ()) {
         Debug.unityLogger.Log ("Nie jestem aktywny. Ratunku");
       }
       if (currentPhase && currentPhase.IsActive ()) {
-        currentPhase.DoAction(); // TODO: czy to będzie potrzebne w Update ?
+        currentPhase.DoAction (); // TODO: czy to będzie potrzebne w Update ?
       } else {
         Debug.unityLogger.Log ("Zmiana fazy");
         currentPhase = NextPhase ();
-        currentPhase.Run ();
+        if (currentPhase == null) {
+          Debug.unityLogger.Log ("KONIEC");
+        }
+        currentPhase.Run (); // TODO: tymczasowo może tutaj wyskoczyć błąd, dodać później jakieś warunki wyjścia z gry
       }
     }
   }
