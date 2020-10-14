@@ -1,13 +1,9 @@
 ﻿using Assets.Scripts.Battle.Board;
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Battle.Board.Renderer;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BoardRenderer : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject cellPrefab;
 
     [SerializeField]
     private GameObject floorContainer;
@@ -25,16 +21,23 @@ public class BoardRenderer : MonoBehaviour
 
     private Vector2 cellSize;
 
+    private BoardSelectionManager selectionManager;
     public void Initialize()
     {
         cellCreator = GetComponent<BoardCellCreator>();
         cellCreator.Initialize();
-        // TODO: wykonać tutaj jakieś działania
+        InitializeSelectionManager();
+    }
+
+    private void InitializeSelectionManager()
+    {
+        selectionManager = new BoardSelectionManager();
+        ColorSelector selector = GetComponent<ColorSelector>();
+        selectionManager.SetSelector(selector);
     }
 
     public void CreateBoard(Board board)
     {
-        Debug.Assert(cellPrefab != null);
         Debug.Assert(floorContainer != null);
         Debug.Assert(pawnsContainer != null);
         Debug.Assert(objectsContainer != null);
@@ -53,19 +56,9 @@ public class BoardRenderer : MonoBehaviour
         {
             for( int column = 0; column < boardSize.x; column++)
             {
-                Debug.unityLogger.Log("Tworzymy tablice");
                 BoardField field = board.GetField(column, row);
                 BoardCell cell = cellCreator.CreateFloorCell(FloorType.DEFAULT, cellSize, floorContainer.transform);
-                Debug.unityLogger.Log("Stworzono komórkę");
-                // TODO: zapisanie 
-
-                //GameObject gameObject = Instantiate(cellPrefab, floorContainer.transform);
-                //gameObject.AddComponent(typeof(LayoutElement));
-                //BoardCell boardCell = gameObject.GetComponent<BoardCell>();
-                //boardCell.Initialize();
-                //boardCell.Resize(cellSize);
-                //boardCell.SetLayer(1);
-                // TODO: tutaj powinna być jeszcze zmiana wyglądu
+                // TODO: zrobić coś z tą komórką
             }
         }
     }
@@ -84,7 +77,12 @@ public class BoardRenderer : MonoBehaviour
         rectTransform.sizeDelta = size;
     }
 
+    void Update()
+    {
+        selectionManager.Update();
+    }
+
     // TODO: utworzenie tablicy
     // TODO: przemieszczanie pionka
-    
+
 }

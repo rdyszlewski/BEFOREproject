@@ -8,7 +8,8 @@ using UnityEngine;
 public class BoardCell : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
-    private BoxCollider2D collider;
+    //private BoxCollider2D collider;
+    private BoxCollider collider;
 
     private IElementInfo element;
     public IElementInfo Element { get => element; set => element = value; }
@@ -16,21 +17,25 @@ public class BoardCell : MonoBehaviour
     public void Initialize()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        collider = GetComponent<BoxCollider2D>();
+        //collider = GetComponent<BoxCollider2D>();
+        collider = GetComponent<BoxCollider>();
     }
 
     public void Resize(Vector3 newSize)
     {
+        Debug.Assert(spriteRenderer != null);
         spriteRenderer.drawMode = SpriteDrawMode.Sliced;
         spriteRenderer.size = newSize;
         transform.localScale = new Vector3(1, 1, 1);
 
+        // TODO: może jakoś z tym są problemy
         collider.size = newSize;
     }
 
     // TODO: później można to trochę przerobić
     public void SetLayer(int layerNumber)
     {
+        Debug.Assert(spriteRenderer != null);
         spriteRenderer.sortingOrder = layerNumber;
     }
 
@@ -43,8 +48,15 @@ public class BoardCell : MonoBehaviour
 
     public void SetSprite(Sprite sprite)
     {
+        Debug.Assert(spriteRenderer != null);
         spriteRenderer.sprite = sprite;
     }
-    
+
+    public void ChangeColor(Color color)
+    {
+        Debug.Assert(spriteRenderer != null);
+        spriteRenderer.color = color;
+    }
+
     // TODO: może konieczne będzie, aby Cell zawierało informacje o pozycji elementu na planszy
 }

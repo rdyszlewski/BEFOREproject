@@ -28,6 +28,8 @@ public class FloorCellCreator : CellCreatorBase
         return CreateCell(type, cellSize, parent, new Vector3(0, 0, 0));
     }
 
+    public static int counter = 0;
+
     public BoardCell CreateCell(FloorType type, Vector2 cellSize, Transform parent, Vector3 position)
     {
         //Debug.unityLogger.Log(floorElements.Count);
@@ -43,6 +45,9 @@ public class FloorCellCreator : CellCreatorBase
             cell.SetLayer(RenderOrder); // TODO: pobranie wartości ze specjalnej 
             cell.SetTexture(element.texture);
             cell.Resize(cellSize);
+            cell.gameObject.name = counter.ToString();
+            counter++;
+            //cell.gameObject.layer = LayerMask.GetMask("Cell");
             return cell;
         }
         return null;

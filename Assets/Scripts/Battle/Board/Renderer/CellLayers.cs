@@ -10,7 +10,6 @@ public class CellLayers : MonoBehaviour
    private class LayerElement {
         public BoardCellCreator.CellType type;
         public int renderOrder;
-       // TODO: jak to zrobić?  
    }
 
     [SerializeField]
