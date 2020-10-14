@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FloorCellCreator : MonoBehaviour
+public class EffectCellCreator : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

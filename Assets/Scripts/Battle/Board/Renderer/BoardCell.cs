@@ -23,13 +23,27 @@ public class BoardCell : MonoBehaviour
     {
         spriteRenderer.drawMode = SpriteDrawMode.Sliced;
         spriteRenderer.size = newSize;
-        transform.localScale = new Vector3(1, 1, 1);        
+        transform.localScale = new Vector3(1, 1, 1);
+
+        collider.size = newSize;
     }
 
     // TODO: później można to trochę przerobić
     public void SetLayer(int layerNumber)
     {
         spriteRenderer.sortingOrder = layerNumber;
+    }
+
+    public void SetTexture(Texture2D texture)
+    {
+        Debug.Assert(texture != null);
+        Sprite sprite = Sprite.Create((Texture2D)texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
+        SetSprite(sprite);
+    }
+
+    public void SetSprite(Sprite sprite)
+    {
+        spriteRenderer.sprite = sprite;
     }
     
     // TODO: może konieczne będzie, aby Cell zawierało informacje o pozycji elementu na planszy

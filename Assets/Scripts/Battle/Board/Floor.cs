@@ -9,6 +9,7 @@ namespace Assets.Scripts.Battle.Board
     public class Floor
     {
         private FloorType type;
+        public FloorType Type { get { return type; } }
 
         public Floor(FloorType type)
         {

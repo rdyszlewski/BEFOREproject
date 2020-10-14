@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Battle.Board;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,10 +21,14 @@ public class BoardRenderer : MonoBehaviour
     [SerializeField]
     private GameObject effectsContainer;
 
+    private BoardCellCreator cellCreator;
+
     private Vector2 cellSize;
 
     public void Initialize()
     {
+        cellCreator = GetComponent<BoardCellCreator>();
+        cellCreator.Initialize();
         // TODO: wykonać tutaj jakieś działania
     }
 
@@ -43,16 +48,23 @@ public class BoardRenderer : MonoBehaviour
         SetContainerSize(objectsContainer, boardRectSize);
         SetContainerSize(effectsContainer, boardRectSize);
 
+        Debug.unityLogger.Log(boardSize);
         for(int row = 0; row < boardSize.y; row++)
         {
             for( int column = 0; column < boardSize.x; column++)
             {
-                GameObject gameObject = Instantiate(cellPrefab, floorContainer.transform);
-                gameObject.AddComponent(typeof(LayoutElement));
-                BoardCell boardCell = gameObject.GetComponent<BoardCell>();
-                boardCell.Initialize();
-                boardCell.Resize(cellSize);
-                boardCell.SetLayer(1);
+                Debug.unityLogger.Log("Tworzymy tablice");
+                BoardField field = board.GetField(column, row);
+                BoardCell cell = cellCreator.CreateFloorCell(FloorType.DEFAULT, cellSize, floorContainer.transform);
+                Debug.unityLogger.Log("Stworzono komórkę");
+                // TODO: zapisanie 
+
+                //GameObject gameObject = Instantiate(cellPrefab, floorContainer.transform);
+                //gameObject.AddComponent(typeof(LayoutElement));
+                //BoardCell boardCell = gameObject.GetComponent<BoardCell>();
+                //boardCell.Initialize();
+                //boardCell.Resize(cellSize);
+                //boardCell.SetLayer(1);
                 // TODO: tutaj powinna być jeszcze zmiana wyglądu
             }
         }
@@ -69,10 +81,7 @@ public class BoardRenderer : MonoBehaviour
     private void SetContainerSize(GameObject container, Vector2 size)
     {
         RectTransform rectTransform = container.GetComponent<RectTransform>();
-        //rectTransform.rect.Set(size.x/2, size.y/2, size.x, size.y);
         rectTransform.sizeDelta = size;
-        //rectTransform.position = new Vector3(size.x / 2, size.y / 2, 0); // TODO: tutaj prawdopodobnie umieścić wartość wartsty
-        //rectTransform.anchoredPosition = new Vector3(0, 0, 0);
     }
 
     // TODO: utworzenie tablicy

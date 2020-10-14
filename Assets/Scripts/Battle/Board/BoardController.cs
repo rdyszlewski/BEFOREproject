@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,23 +15,25 @@ public class BoardController : MonoBehaviour
     
     void Start()
     {
+        StartGame();
+    }
+
+    public void StartGame()
+    {
         Initialize();
         GenerateBoard();
-        
-
     }
 
     private void Initialize()
     {
         renderer = GetComponent<BoardRenderer>();
         renderer.Initialize();
-        
         generator = GetComponent<BoardGenerator>();
     }
     
     void Update()
     {
-        
+
     }
 
     public void GenerateBoard()
