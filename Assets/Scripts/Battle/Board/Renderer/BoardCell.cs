@@ -28,7 +28,6 @@ public class BoardCell : MonoBehaviour
         spriteRenderer.size = newSize;
         transform.localScale = new Vector3(1, 1, 1);
 
-        // TODO: może jakoś z tym są problemy
         collider.size = newSize;
     }
 
@@ -42,7 +41,7 @@ public class BoardCell : MonoBehaviour
     public void SetTexture(Texture2D texture)
     {
         Debug.Assert(texture != null);
-        Sprite sprite = Sprite.Create((Texture2D)texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
         SetSprite(sprite);
     }
 
