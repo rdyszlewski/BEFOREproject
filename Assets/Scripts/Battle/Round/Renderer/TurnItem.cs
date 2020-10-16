@@ -15,4 +15,9 @@ public class TurnItem : MonoBehaviour {
 
   }
 
+  public StepItem GetStepItem(int index){
+    Debug.Assert(index >=0 && index < steps.Count);
+    return steps[index];
+  }
+
 }

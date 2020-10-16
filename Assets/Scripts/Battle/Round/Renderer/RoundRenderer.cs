@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class RoundRenderer : MonoBehaviour {
 
-  // TODO: z romiarów zrobić klasę, która później może być przekazywana innym elementom
-
   [System.Serializable]
   public class PatternSizes{
     public Vector2 itemSize;
@@ -22,6 +20,11 @@ public class RoundRenderer : MonoBehaviour {
   private ItemCreator itemCreator;
   private RoundSizeCorrector sizeCorrector;
 
+  private IRoundSelection roundSelection;
+
+  private PatternItem patternItem;
+
+
   void Start () {
 
   }
@@ -29,32 +32,34 @@ public class RoundRenderer : MonoBehaviour {
   public void Initialization () {
     itemCreator = GetComponent<ItemCreator> ();
     sizeCorrector = new RoundSizeCorrector();
+    roundSelection = GetComponent<ColorSelection>();
+    
   }
 
   public void DrawPattern (Round round) {
     Debug.Assert(itemCreator != null);
-    int turnsNumber = round.CountTurns();
-    for(int turnIndex=0; turnIndex < turnsNumber; turnIndex++){
-      // TODO: wymyślić to w jakiś inny sposób
-      Turn turn = round.GetTurn(turnIndex);
-      itemCreator.CreateTurnItem(turn, patternContainer.transform);
-    }
+    List<TurnItem> turnItems = DrawTurns(round);
     sizeCorrector.Resize(patternContainer, sizes);
+    patternItem = new PatternItem(turnItems);
+    roundSelection.Initialize(patternItem);
   }
 
-  // private void SetParentSpacing(){
-  //   // TODO: możliwe, żę będzie można utworzyć jedną klasę, która będzie odpowiednio ustawiała rozmiary elementów. To jest chyba dobry pomysł
-  //   // TODO: być może to będzie można przenieść w jakieś inne miejsce
-  //   Transform patternTransform = transform.Find("Pattern");
-  //   HorizontalLayoutGroup layout = patternTransform.GetComponent<HorizontalLayoutGroup>();
-  //   layout.spacing = turnSpacing;
-  // }
+  private List<TurnItem> DrawTurns(Round round){
+    List<TurnItem> turnItems = new List<TurnItem>();
+    int turnsCount = round.CountTurns();
+    for(int turnIndex=0; turnIndex < turnsCount; turnIndex++){
+      Turn turn = round.GetTurn(turnIndex);
+      TurnItem turnItem = itemCreator.CreateTurnItem(turn, patternContainer.transform);
+      turnItems.Add(turnItem);
+    }
+    return turnItems;
+  }
 
   public void Select (int turn, int step) {
-
+    roundSelection.Select(turn, step);
   }
 
-  private void Deselect () {
-
+  public void Deselect (int turn, int step) {
+    roundSelection.Deselect(turn ,step);
   }
 }

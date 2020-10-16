@@ -5,9 +5,6 @@ public class ItemCreator : MonoBehaviour {
   [SerializeField]
   private GameObject turnObject;
 
-  [SerializeField]
-  private GameObject stepObject;
-
   private StepItemCreator stepItemCreator;
 
   void Awake () {
@@ -18,10 +15,7 @@ public class ItemCreator : MonoBehaviour {
     GameObject turnObject = CreateTurn (parent);
     GameObject stepsContainer = turnObject.transform.Find ("Steps").gameObject;
     List<StepItem> steps = CreateStepsItems (turn, stepsContainer);
-    TurnItem turnItem = turnObject.GetComponent<TurnItem>();
-    turnItem.Initialize();
-    turnItem.Steps = steps;
-
+    TurnItem turnItem = InitializeTurnItem(turnObject, steps);
     return turnItem;
   }
 
@@ -38,6 +32,13 @@ public class ItemCreator : MonoBehaviour {
       steps.Add (item);
     }
     return steps;
+  }
+
+  private TurnItem InitializeTurnItem(GameObject turnObject, List<StepItem> steps){
+     TurnItem turnItem = turnObject.GetComponent<TurnItem>();
+    turnItem.Initialize();
+    turnItem.Steps = steps;
+    return turnItem;
   }
 
   private void AppendStepItemToTurnItem (List<StepItem> steps, GameObject stepsContainer) {

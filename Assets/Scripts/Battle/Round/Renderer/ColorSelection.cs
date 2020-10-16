@@ -1,18 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ColorSelection : MonoBehaviour
+public class ColorSelection : MonoBehaviour, IRoundSelection
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+  private PatternItem pattern;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  [SerializeField]
+  private Color activeStepColor;
+
+  public void Initialize(PatternItem pattern){
+    this.pattern = pattern;
+  }
+
+  public void Deselect(int turn, int step)
+  {
+    ChangeColor(turn, step, Color.white);
+  }
+
+  public void Select(int turn, int step)
+  {
+    ChangeColor(turn, step, activeStepColor);
+  }
+
+  private void ChangeColor(int turn, int step, Color color){
+    pattern.GetTurnItem(turn).GetStepItem(step).ChangeColor(color);
+  }
 }
