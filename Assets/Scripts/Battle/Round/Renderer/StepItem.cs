@@ -17,17 +17,6 @@ public class StepItem : MonoBehaviour
       collider = GetComponent<BoxCollider2D>();
     }
 
-    public void Resize(Vector2 newSize){
-      Debug.Assert(spriteRenderer != null);
-      spriteRenderer.drawMode = SpriteDrawMode.Sliced;
-      spriteRenderer.size = newSize;
-      transform.localScale = new Vector3(1,1,1);
-
-      rectTransfrom.sizeDelta = newSize;
-
-      collider.size = newSize;
-    }
-
     public void SetLayer(int layerNumber){
       Debug.Assert(spriteRenderer != null);
       spriteRenderer.sortingOrder = layerNumber;

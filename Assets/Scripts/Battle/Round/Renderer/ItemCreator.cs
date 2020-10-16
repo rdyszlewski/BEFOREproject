@@ -14,14 +14,13 @@ public class ItemCreator : MonoBehaviour {
     stepItemCreator = GetComponent<StepItemCreator> ();
   }
 
-  public TurnItem CreateTurnItem (Turn turn, Vector2 itemSize, Transform parent) {
+  public TurnItem CreateTurnItem (Turn turn, Transform parent) {
     GameObject turnObject = CreateTurn (parent);
     GameObject stepsContainer = turnObject.transform.Find ("Steps").gameObject;
-    List<StepItem> steps = CreateStepsItems (turn, itemSize, stepsContainer);
+    List<StepItem> steps = CreateStepsItems (turn, stepsContainer);
     TurnItem turnItem = turnObject.GetComponent<TurnItem>();
     turnItem.Initialize();
     turnItem.Steps = steps;
-    turnItem.Resize();
 
     return turnItem;
   }
@@ -31,11 +30,11 @@ public class ItemCreator : MonoBehaviour {
     return createdTurn;
   }
 
-  private List<StepItem> CreateStepsItems (Turn turn, Vector2 itemSize, GameObject stepsContainer) {
+  private List<StepItem> CreateStepsItems (Turn turn,  GameObject stepsContainer) {
     List<StepItem> steps = new List<StepItem> ();
     for (int i = 0; i < turn.CountSteps (); i++) {
       Step step = turn.GetStep (i);
-      StepItem item = stepItemCreator.CreateStepItem (step.Type, itemSize, stepsContainer.transform);
+      StepItem item = stepItemCreator.CreateStepItem (step.Type,  stepsContainer.transform);
       steps.Add (item);
     }
     return steps;

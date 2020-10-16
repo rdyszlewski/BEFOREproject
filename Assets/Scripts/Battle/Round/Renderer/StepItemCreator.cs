@@ -17,7 +17,7 @@ public class StepItemCreator : MonoBehaviour {
   [SerializeField]
   private GameObject stepItemObject;
 
-  public StepItem CreateStepItem (StepType type, Vector2 itemSize, Transform parent) {
+  public StepItem CreateStepItem (StepType type,  Transform parent) {
     Debug.Assert(stepItemObject != null);
     GameObject createdStep = Instantiate(stepItemObject, parent);
     createdStep.AddComponent(typeof(LayoutElement));
@@ -32,7 +32,6 @@ public class StepItemCreator : MonoBehaviour {
     item.Initialize();
     item.SetLayer(10);
     item.SetTexture(element.texture);
-    item.Resize(itemSize);
     // TODO: można zrobić nazywanie 
     return item;
   }
