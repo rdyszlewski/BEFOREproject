@@ -7,14 +7,16 @@ public class ColorCardSelection : MonoBehaviour, ICardSelection
 
   [SerializeField]
   private Color selectionColor;
-  
-  public void Deselect()
-  {
-    throw new System.NotImplementedException();
-  }
 
-  public void Select()
+  private readonly Color defaultColor = Color.white;
+  
+
+  public void Select(CardItem item)
   {
-    throw new System.NotImplementedException();
+    item.ChangeColor(selectionColor);
+  }
+  public void Deselect(CardItem item)
+  {
+    item.ChangeColor(defaultColor);
   }
 }

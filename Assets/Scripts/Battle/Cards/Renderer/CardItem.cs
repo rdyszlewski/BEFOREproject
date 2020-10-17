@@ -31,6 +31,7 @@ public class CardItem : MonoBehaviour
 
     public void ChangeColor(Color color){
       Debug.Assert(spriteRenderer != null);
+      spriteRenderer.color = color;
     } 
 
     public void SetTexture(Texture2D texture){

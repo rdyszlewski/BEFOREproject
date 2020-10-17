@@ -1,6 +1,6 @@
 
 public interface ICardSelection{
   // TODO: zastanowić się nad parametrami
-  void Select();
-  void Deselect();
+  void Select(CardItem item);
+  void Deselect(CardItem item);
 }

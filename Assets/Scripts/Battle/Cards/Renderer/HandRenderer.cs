@@ -11,13 +11,13 @@ public class HandRenderer : MonoBehaviour
 
   private Hand hand;
   private List<CardItem> items;
-  private SelectionManager selectionManager;
+  private SelectionController selectionController;
   private CardItemCreator itemCreator;
   
   public void Initialize(){
     items = new List<CardItem>();
     ICardSelection selection = GetComponent<ColorCardSelection>();
-    selectionManager = new SelectionManager(selection);
+    selectionController = new SelectionController(selection, new ChooseCardCommand());
     itemCreator = GetComponent<CardItemCreator>();
   }
 
@@ -31,4 +31,7 @@ public class HandRenderer : MonoBehaviour
     }
   }
 
+  void Update(){
+    selectionController.Update();
+  }
 }

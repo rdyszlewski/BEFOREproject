@@ -5,6 +5,7 @@ namespace Assets.Scripts.Battle.Board.Renderer
 {
     public class BoardSelectionManager
     {
+      private float RayDistance = 20;
         private ISelection selector;
         private HashSet<BoardCell> selectedCells = new HashSet<BoardCell>();
         // TODO: być może można zrobić tutaj coś z typem aktywnego zaznaczenia. Być może możliwe będzie zaznaczanie kilku elementów, np. attack oraz przeciwnik. Trzeba to przemyśleć
@@ -27,7 +28,7 @@ namespace Assets.Scripts.Battle.Board.Renderer
             // TODO: może lepiej zrobić to w ten sposób, aby uderzało tylko w podłogę, a później brany byłby odpowiedni obiekt
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, LayerMask.GetMask("Cell")))
+            if (Physics.Raycast(ray, out hit, RayDistance, LayerMask.GetMask("Cell")))
             {
                 GameObject gameObject = hit.collider.gameObject;
                 BoardCell item = gameObject.GetComponent<BoardCell>();
