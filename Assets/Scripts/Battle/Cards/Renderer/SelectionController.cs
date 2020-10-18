@@ -6,18 +6,17 @@ public class SelectionController {
   private ICardSelection selection;
 
   private ChooseCardCommand cardCommand;
+  public ChooseCardCommand CardCommand{set{cardCommand = value;}}
 
   private GameObject currentObject;
   private CardItem selectedCard;
 
 
-  public SelectionController (ICardSelection selection, ChooseCardCommand command) {
+  public SelectionController (ICardSelection selection) {
     this.selection = selection;
-    this.cardCommand = command;
   }
 
   public void Update () {
-    // TODO: zaznaczanie karty  
     OnMouseMovement();
     if(Input.GetMouseButtonDown(0) && IsCardSelected()){
       cardCommand.Execute(selectedCard.Card);

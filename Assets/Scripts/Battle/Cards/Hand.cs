@@ -7,7 +7,6 @@ public class Hand{
   private int capacity;
   private int Capacity{get {return capacity;}}
   private List<Card> cards;
-  // TODO: czy dać dostęp listy kart innym klasom?
   private HandRenderer handRenderer;
 
   public Hand(int capacity, HandRenderer handRenderer){
@@ -17,7 +16,7 @@ public class Hand{
 
   public void AddCard(Card card){
     cards.Add(card);
-    // TODO: wstawić kartę
+    handRenderer.AddCard(card);
   }
 
   public void TakeCards(List<Card> cards){
@@ -27,13 +26,12 @@ public class Hand{
 
   public void DiscardCards(){
     this.cards.Clear();
-
-    // TODO: zaktualizować 
+    handRenderer.RemoveAll();
   }
 
   public void RemoveCard(Card card){
     this.cards.Remove(card);
-    // TODO: zaktualizować widok
+    handRenderer.Remove(card);
   }
 
   public void ChooseCard(Card card){
@@ -46,7 +44,7 @@ public class Hand{
   }
 
   public Card GetCard(int index){
-    // TODO: dodać warunek
+    Debug.Assert(index >= 0 && index < cards.Count); // TODO: sprawdzić później ten warunek
     return cards[index];
   }
 }

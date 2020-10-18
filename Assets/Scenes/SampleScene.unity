@@ -189,6 +189,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbead1ba6e6a695098998c6412d81a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cards:
+  - type: 0
+    up: 0
+    down: 0
+    left: 1
+    right: 1
+    none: 0
+  - type: 1
+    up: 1
+    down: 1
+    left: 0
+    right: 0
+    none: 0
+  - type: 2
+    up: 1
+    down: 1
+    left: 1
+    right: 1
+    none: 0
+  - type: 4
+    up: 0
+    down: 0
+    left: 0
+    right: 0
+    none: 1
+  - type: 5
+    up: 0
+    down: 0
+    left: 0
+    right: 0
+    none: 1
 --- !u!114 &57020661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,9 +245,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9578849b3a67899b8e2e59a984769c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tempTexture: {fileID: 2800000, guid: a944a1ae3b94899179ce4901b112683a, type: 3}
+  holeTexture: {fileID: 2800000, guid: 166928af978094b21b1dfedb6914f07b, type: 3}
   cardObject: {fileID: 6792819192198671447, guid: c84997d59070d400e9c71d32107c655c,
     type: 3}
+  items:
+  - type: 0
+    texture: {fileID: 2800000, guid: a944a1ae3b94899179ce4901b112683a, type: 3}
+  - type: 1
+    texture: {fileID: 2800000, guid: f9012010e1c69cf019c7bbbfc39af0c9, type: 3}
+  - type: 2
+    texture: {fileID: 2800000, guid: d87558762dfb50261a76a61f5d707b47, type: 3}
+  - type: 5
+    texture: {fileID: 2800000, guid: 0beea5933d30401fd8484123735d3441, type: 3}
+  - type: 4
+    texture: {fileID: 2800000, guid: 0beea5933d30401fd8484123735d3441, type: 3}
 --- !u!114 &57020663
 MonoBehaviour:
   m_ObjectHideFlags: 0

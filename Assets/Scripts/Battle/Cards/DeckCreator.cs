@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+
 
 public class DeckCreator : MonoBehaviour {
   private CardCreator cardCreator;
+  private System.Random random = new System.Random();
 
   void Awake () {
     cardCreator = GetComponent<CardCreator> ();
@@ -17,13 +20,19 @@ public class DeckCreator : MonoBehaviour {
 
   private List<Card> CreateCards (int size) {
     List<Card> cards = new List<Card> ();
-    // TODO: zrobić jakieś fajne rzeczy
     for (int i = 0; i < size; i++) {
-      Card card = cardCreator.CreateCard (CardType.MOVE_HORIZONTAL);
+      CardType type = RandomType();
+      Card card = cardCreator.CreateCard (type);
       cards.Add (card);
     }
     return cards;
   }
+
+  private CardType RandomType(){
+    Array values = Enum.GetValues(typeof(CardType));
+    int index = random.Next(values.Length);
+    return (CardType)values.GetValue(index);
+  } 
 
 // TODO: to prawdopodobnie zostanie usunięte
   void Start(){
