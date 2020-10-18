@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CardItem : MonoBehaviour
 {
@@ -9,6 +7,11 @@ public class CardItem : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private BoxCollider boxCollider;
+
+    private Texture2D holeTexture;
+    public Texture2D HoleTexture{set{holeTexture = value;}}
+    private Texture2D cardTexture;
+
 
     // TODO: zmianę rozmiaru można by oddelegować do jakieś strategii
     private RectTransform rectTransform;
@@ -34,9 +37,26 @@ public class CardItem : MonoBehaviour
       spriteRenderer.color = color;
     } 
 
+    // TODO: przemyśleć, jak powinna wyglądać zmiana tekstur
     public void SetTexture(Texture2D texture){
       Debug.Assert(spriteRenderer != null);
+      ChangeTexture(texture);
+      cardTexture = texture;
+    }
+    
+    private void ChangeTexture(Texture2D texture){
       Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
       spriteRenderer.sprite = sprite;
+    }
+
+    // TODO: może nazwa nie do końca adekwatna
+    public void FlipCard(){
+      // TODO: w parametrze mozna zrobić, żeby wyśietlało animację odwracania albo nie
+      if(card.State == CardState.HOLE){
+        ChangeTexture(holeTexture);
+      } else {
+        ChangeTexture(cardTexture);
+      }
+
     }
 }

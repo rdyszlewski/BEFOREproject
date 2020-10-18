@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class MoveCommand : IActionCommand
 {
-  public void Execute(BattlePlayer player, Board board, Vector2Int position)
+  public void Execute(EntityPlayer player, Board board, Vector2Int position)
   {
     throw new System.NotImplementedException();
   }
 
-  public List<Vector2Int> GetPositions(BattlePlayer player, Board board, Direction direction)
+  public List<Vector2Int> GetPositions(EntityPlayer player, Board board, Direction direction)
   {
     throw new System.NotImplementedException();
   }
 
-  public bool IsPossible(BattlePlayer player, Board board, Vector2Int position)
+  public bool IsPossible(EntityPlayer player, Board board, Vector2Int position)
   {
     throw new System.NotImplementedException();
   }
 
-  public void Preview(BattlePlayer player, Board board, Vector2Int position)
+  public void Preview(EntityPlayer player, Board board, Vector2Int position)
   {
     throw new System.NotImplementedException();
   }

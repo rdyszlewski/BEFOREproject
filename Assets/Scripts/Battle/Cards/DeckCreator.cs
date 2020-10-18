@@ -12,7 +12,8 @@ public class DeckCreator : MonoBehaviour {
   }
   // TODO: później dodać wstawianie schematu, dla konkretnego wroga, lub schemat gracza
   public Deck CreateDeck (int size) {
-    Deck deck = new Deck ();
+    CardsRenderer renderer = GetComponent<CardsRenderer>();
+    Deck deck = new Deck (renderer);
     List<Card> cards = CreateCards (size);
     deck.Initialize (cards);
     return deck;
@@ -37,11 +38,12 @@ public class DeckCreator : MonoBehaviour {
 // TODO: to prawdopodobnie zostanie usunięte
   void Start(){
     Deck deck = CreateDeck(15);
-    HandRenderer renderer = GetComponent<HandRenderer>();
+    CardsRenderer renderer = GetComponent<CardsRenderer>();
     renderer.Initialize();
     Hand hand = new Hand(5, renderer);
     List<Card> cards = deck.RandomCards(5);
     hand.TakeCards(cards);
-    renderer.Draw(hand);
+    renderer.DrawDeck(deck);
+    renderer.DrawHand(hand);
   }
 }

@@ -37,8 +37,11 @@ public class CardItemCreator : MonoBehaviour {
     item.Initialize ();
     item.Card = card;
     Texture2D texture = itemsMap.GetElement(card.Type).texture;
+    item.HoleTexture = holeTexture;
     item.SetTexture (texture);
     item.Resize (cardSize);
     return item;
   }
+
+  
 }

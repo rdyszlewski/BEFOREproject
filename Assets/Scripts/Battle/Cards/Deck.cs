@@ -9,6 +9,12 @@ public class Deck{
 
   private HashSet<Card> usedCards;
 
+  private CardsRenderer renderer;
+
+  public Deck(CardsRenderer renderer){
+    this.renderer = renderer;
+  }
+
   public List<Card> RandomCards(int amount){
     List<Card> notUsedCards = GetNotUsedCards();
     int cardsNumber = notUsedCards.Count >= amount ? amount: notUsedCards.Count;

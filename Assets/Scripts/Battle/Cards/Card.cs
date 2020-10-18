@@ -8,7 +8,10 @@ public class Card{
   private List<CardAction> actions;
   public List<CardAction> Actions{get{return actions;}}
 
+  private EntityPlayer owner;
+  public EntityPlayer Owner{get{return owner;} set{owner = value;}}
   private CardState state;
+  public CardState State{get{return state;} set{state=value;}}
 
   public Card(CardType type, List<CardAction> actions){
     this.type = type;

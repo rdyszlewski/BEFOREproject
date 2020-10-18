@@ -7,16 +7,16 @@ public class Hand{
   private int capacity;
   private int Capacity{get {return capacity;}}
   private List<Card> cards;
-  private HandRenderer handRenderer;
+  private CardsRenderer handRenderer;
 
-  public Hand(int capacity, HandRenderer handRenderer){
+  public Hand(int capacity, CardsRenderer handRenderer){
     this.capacity = capacity;
     this.handRenderer = handRenderer;
   }
 
   public void AddCard(Card card){
     cards.Add(card);
-    handRenderer.AddCard(card);
+    handRenderer.AddCardToHand(card);
   }
 
   public void TakeCards(List<Card> cards){
@@ -26,12 +26,14 @@ public class Hand{
 
   public void DiscardCards(){
     this.cards.Clear();
-    handRenderer.RemoveAll();
+    handRenderer.ClearHand();
   }
 
   public void RemoveCard(Card card){
     this.cards.Remove(card);
-    handRenderer.Remove(card);
+    // handRenderer.Remove(card);
+    // TODO: tego tutaj nie powinno być, ale to tutaj wstawię
+    handRenderer.MoveCardFromHandToPile(card);
   }
 
   public void ChooseCard(Card card){
