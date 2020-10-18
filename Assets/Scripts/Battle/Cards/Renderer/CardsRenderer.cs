@@ -3,19 +3,13 @@ using UnityEngine;
 
 public class CardsRenderer : MonoBehaviour
 {
-  // TODO; prawdopdobnie to wszystko będzie wyglądało nieco inaczej. Być może będzie jeden renderer zarządzający wszystkimi kartami (Deck, Hand, ChosenCards). Wtedy będzie można robić fajne przejśćia karty pomiędzy odpowiednimi kupkami
-
-  // TODO: może zrobić jakiś globalny rozmiar karty, tak, żeby w każdym miejscu wyglądały tak samo
   [SerializeField]
   private Vector3 cardSize;
-
 
   private HandRenderer handRenderer;
   private PileRenderer pileRenderer;
   private DeckRenderer deckRenderer;
 
-
-  private SelectionController selectionController;
   private CardItemCreator itemCreator;
   
 

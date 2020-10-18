@@ -5,8 +5,8 @@ public class CardItem : MonoBehaviour
     private Card card;
     public Card Card{get{return card;} set{card = value;}}
 
-    private SpriteRenderer spriteRenderer;
-    private BoxCollider boxCollider;
+    private SpriteRenderer cardRenderer;
+    private BoxCollider cardCollider;
 
     private Texture2D holeTexture;
     public Texture2D HoleTexture{set{holeTexture = value;}}
@@ -16,37 +16,37 @@ public class CardItem : MonoBehaviour
     // TODO: zmianę rozmiaru można by oddelegować do jakieś strategii
     private RectTransform rectTransform;
     public void Initialize(){
-      spriteRenderer = GetComponent<SpriteRenderer>();
-      spriteRenderer.drawMode = SpriteDrawMode.Sliced;
-      boxCollider = GetComponent<BoxCollider>();
+      cardRenderer = GetComponent<SpriteRenderer>();
+      cardRenderer.drawMode = SpriteDrawMode.Sliced;
+      cardCollider = GetComponent<BoxCollider>();
       rectTransform = GetComponent<RectTransform>();
     }
 
     public void Resize(Vector2 size){
-      Debug.Assert(spriteRenderer != null);
-      Debug.Assert(boxCollider != null);
+      Debug.Assert(cardRenderer != null);
+      Debug.Assert(cardCollider != null);
       Debug.Assert(rectTransform != null);
-      spriteRenderer.size = size;
-      boxCollider.size = size;
+      cardRenderer.size = size;
+      cardCollider.size = size;
 
       rectTransform.sizeDelta = size;
     }
 
     public void ChangeColor(Color color){
-      Debug.Assert(spriteRenderer != null);
-      spriteRenderer.color = color;
+      Debug.Assert(cardRenderer != null);
+      cardRenderer.color = color;
     } 
 
     // TODO: przemyśleć, jak powinna wyglądać zmiana tekstur
     public void SetTexture(Texture2D texture){
-      Debug.Assert(spriteRenderer != null);
+      Debug.Assert(cardRenderer != null);
       ChangeTexture(texture);
       cardTexture = texture;
     }
     
     private void ChangeTexture(Texture2D texture){
       Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100);
-      spriteRenderer.sprite = sprite;
+      cardRenderer.sprite = sprite;
     }
 
     // TODO: może nazwa nie do końca adekwatna

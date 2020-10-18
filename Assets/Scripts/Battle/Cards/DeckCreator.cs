@@ -45,5 +45,7 @@ public class DeckCreator : MonoBehaviour {
     hand.TakeCards(cards);
     renderer.DrawDeck(deck);
     renderer.DrawHand(hand);
+
+    
   }
 }
